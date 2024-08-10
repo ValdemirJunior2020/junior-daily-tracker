@@ -3,20 +3,22 @@ const SHEET_ID = '1Bwqc7eRuMi6N29HkxjzLNzAt3SlMShP_Y7AdLkB49xM'; // Your Google 
 const RANGE = 'Sheet1!A1:H1000'; // Adjust the range according to your sheet
 
 async function fetchData() {
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${RANGE}?key=${API_KEY}`;
-    console.log('Request URL:', url); // Log the URL for debugging
-    const response = await fetch(url);
-    if (!response.ok) {
-        const errorText = await response.text(); // Get detailed error message
-        console.error(`HTTP error! status: ${response.status}, message: ${errorText}`);
-        throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+    const loadingElement = document.getElementById('loading');
+    loadingElement.style.display = 'block'; // Show loading image
+    try {
+        const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${RANGE}?key=${API_KEY}`;
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        loadingElement.style.display = 'none'; // Hide loading image
+        return data.values;
+    } catch (error) {
+        loadingElement.style.display = 'none'; // Hide loading image in case of error
+        console.error('Error fetching data:', error);
+        throw error;
     }
-    const data = await response.json();
-    console.log('Fetched data:', data); // Log the fetched data for debugging
-    if (!data.values) {
-        throw new Error('No data found in the response.');
-    }
-    return data.values;
 }
 
 function renderTable(data) {
@@ -53,6 +55,12 @@ function renderTable(data) {
     }
 }
 
+fetchData()
+    .then(data => renderTable(data))
+    .catch(error => {
+        document.body.innerHTML = `<div class="alert alert-danger" role="alert">Error fetching data: ${error.message}</div>`;
+    });
+
 function downloadCSV(data) {
     let csvContent = "data:text/csv;charset=utf-8,";
     data.forEach(row => {
@@ -69,15 +77,3 @@ function downloadCSV(data) {
     link.click();
     document.body.removeChild(link); // Clean up
 }
-
-fetchData()
-    .then(data => {
-        renderTable(data);
-        document.getElementById("download-btn").addEventListener("click", () => {
-            downloadCSV(data);
-        });
-    })
-    .catch(error => {
-        console.error('Error fetching data:', error);
-        document.body.innerHTML = `<div class="alert alert-danger" role="alert">Error fetching data: ${error.message}</div>`;
-    });
