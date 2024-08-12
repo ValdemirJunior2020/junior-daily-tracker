@@ -1,0 +1,5 @@
+/* Change the color of the navbar links to blue */
+.navbar-nav .nav-link {
+    color: blue !important; /* Use !important to ensure the color is applied */
+    font-weight: bold; /* Keep the links bold if needed */
+}
