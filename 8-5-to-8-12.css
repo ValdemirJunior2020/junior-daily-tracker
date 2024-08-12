@@ -1,0 +1,14 @@
+/* Ensure navbar items are displayed horizontally */
+.navbar-nav {
+    flex-direction: row;
+}
+
+.nav-item {
+    margin-left: 20px; /* Add space between items */
+}
+
+/* Additional styling if needed */
+.navbar-nav .nav-link {
+    color: blue !important;
+    font-weight: bold;
+}

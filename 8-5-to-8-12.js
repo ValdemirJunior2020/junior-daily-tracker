@@ -1,6 +1,6 @@
 const API_KEY = 'AIzaSyDtVQ6fgbzJNEJW9IVYRkaoB-0-NhD7hHQ'; // Your API Key
 const SHEET_ID = '1Bwqc7eRuMi6N29HkxjzLNzAt3SlMShP_Y7AdLkB49xM'; // Your Google Sheet ID
-const RANGE = 'Sheet1!A1:H1000'; // Adjust this range according to your data
+const RANGE = '8-5-to-8-12!A1:H1000'; // Specify the range and the tab name
 
 async function fetchData() {
     const loadingElement = document.getElementById('loading');
