@@ -3,3 +3,11 @@
     color: blue !important; /* Use !important to ensure the color is applied */
     font-weight: bold; /* Keep the links bold if needed */
 }
+/* Ensure content is centered horizontally and vertically in table cells */
+.table td, .table th {
+    text-align: center; /* Center content horizontally */
+    vertical-align: middle; /* Center content vertically */
+    font-size: 13px; /* Ensure the font size is correct */
+    font-weight: bold; /* Make the text bold if needed */
+    border: 1px solid #080000; /* Add border if needed */
+}
